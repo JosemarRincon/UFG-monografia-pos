@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Visão Computacional na contagem dos palos com python3</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+      /*Images full scale*/
+      img{width: 100%; height:100%}
+      .img-initial{
+        height:320px;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+      }
+      /* Two-column layout for 50% slide */
+      .left-column50 {
+        width: 50%;
+        float: left;
+      }
+     .right-column50 {
+        width: 50%;
+        float: right;
+      }
+      .no-column {
+        width: 100%;
+        float: right;
+      }
+	  .font {
+	  font-size:24px;
+	  line-height: 150%;
+	  }
+	  .highlight {
+	  color:blue;
+	  }
+
+	  </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+layout: true
+
+---
+class: center, middle
+![Center-aligned image](images/ufg.png) 
+## Instituto de informática
+
+# Aplicação de visão computacional na contagem dos palos no teste palográfico
+
+####  Josemar Pereira Rincon
+**Orientador**: Prof. Eliomar
+
+---
+# Roteiro
+
+- .font[O Teste palográfico: Introdução e Exemplos]
+- .font[Visão computacional: Introdução e Aplicações]
+- .font[Ferramentas utilizadas]
+- .font[Objetivo e Justificativa]
+- .font[Desenvolvimento do projeto]
+- .font[Demonstração: Protótipo]
+---
+# O Teste palográfico
+
+<br><br><br>
+
+> "O teste palográfico foi desenvolvido na .highlight[Espanha e trazido para o Brasil], por
+> .highlight[Agostinho Minicucci] na década de .highlight[1970]. Tem como base teórica questões 
+> relativas ao .highlight[comportamento expressivo] e técnicas gráficas para avaliação da .highlight[personalidade]."
+
+> ** Ottati, Fernanda**, Teste Palográfico, [ibap](http://www.ibapnet.org.br/?cd=45&titulo=teste_palografico), 2012.
+
+>  ||||||||||||||||||-||||||||||||||||-||||||||||||||||||-||||||||||||||||||-||||||||||||
+???
+<br>
+A pessoa deve fazer de lápis, riscos verticais o quanto puder e o mais perfeito possível,no tempo de 5 minutos
+Para cada minuto o psicologo dará o comando "sinal", então a pessoa deverá riscar  um  traço  na  horizontal,  e  continuar  a  fazer  os  traços  na  vertical.
+
+---
+# O Teste palográfico
+### Avaliação
+- .font[Quantitativa]
+  - Nessa analise são considerados produtividade, ritmo, e rendimento
+???
+- Produtividade
+  - É   a   quantidade   total   de   riscos,   somando-se   os   5   tempos.
+- Ritmo 
+  - Na avaliação do ritmo faz-se a soma da diferença na quantidade de palos entre 
+    cada um dos 5 tempos, proporcional ao total de palos na soma dos 5 tempos.
+    NOR= (soma das diferenças)*100/(total de palos)
+- Rendimento
+  - A análise do rendimento é feita por um gráfico que da uma visão mais clara da relação entre a produtividade e o ritmo. Aqui é analisado a qualidade do rendimento no trabalho e a tendencia a exaustão.
+---
+# O Teste palográfico
+
+.left-column50[![:img 97%, center](images/teste-palo-ex1.jpg)]
+.right-column50[![:img 97%, center](images/teste-palo-ex2.jpg)] 
+---
+
+# Visão Computacional
+
+<br><br><br>
+> "Visão computacional é a .highlight[ciência responsável pela visão de uma máquina], pela forma .highlight[como um computador enxerga o meio] à sua volta,
+> extraindo informações significativas a partir de imagens capturadas por câmeras de vídeo, sensores, scanners, entre outros dispositivos.
+> Estas informações permitem .highlight[reconhecer], .highlight[manipular] e .highlight[pensar sobre os objetos] que compõem uma imagem "
+
+> ** Ballard, Dana Harry**, Computer Vision, PrenticeHall, 1982.
+???
+<br>
+Visão  computacional  é  a  combinação  de  varias  técnicas  de  processamento  deimagens com o objetivo de identificar padrões, e reconhecer objetos em imagens.
+
+Em aplicações de visão computacional nós tentamos descobrir traços escondidos em uma imagens, para humanos é facil reconhecer e identificar objetos, porem para computadores esse é um desafio e tanto.
+
+Aplicações com visão computacional estão em todos os locais, quem você acha que sugere taggear um amigo em uma foto do facebook.
+
+O filtro Sobel calcula o gradiente da intensidade da imagem em cada ponto, dando a direcção da maior variação de claro para escuro e a quantidade de variação nessa direcção. Assim, obtém-se uma noção de como varia a luminosidade em cada ponto, de forma mais suave ou abrupta.
+
+Com isto consegue-se estimar a presença de uma transição claro-escuro e de qual a orientação desta. Como as variações claro-escuro intensas correspondem a fronteiras bem definidas entre objectos, consegue-se fazer a detecção de contornos.
+
+
+---
+## Na saúde
+![:img 90%, center](images/olho.jpg)
+> O .highlight[TensorFlow]  do Google, por exemplo, foi usado por um sistema que ajuda a identificar a
+> .highlight[retinopatia diabética], uma das principais causas de cegueira entre os adultos. O 
+> programa usa  Deep Learning na .highlight[analise de imagens] da retina para encontrar semelhanças. 
+> Em testes, a ferramenta conseguiu obter
+> taxa de sucesso igual a dos médicos.
+
+> http://portaltelemedicina.com.br/blog/inteligencia-artificial-na-medicina-tensorflow/
+
+---
+## Carros autônomos
+![:img 85%, center](images/tesla-self-driving.gif)
+
+* .font[Detecção de objetos]
+* .font[Estimação de distância e velocidade]
+* .font[Representação 3D]
+???
+ Detecção de objeto:
+	* Atenção aos obstáculos inesperados, cones de tráfego, pedestre atravessando, mudança repentina de faixa.
+	* Scanner a laser, no teto do carro gera uma representação 3D milimetricamente precisa dos arredores
+---
+## Realidade aumentada
+
+.left-column50[![:img 100%, center](images/ar.gif)]
+.right-column50[![:img 98%, center](images/maquete.gif)]
+.
+* .font[Estimar posição da câmera na cena]
+* .font[sobreposição de objetos virtuais com o mundo real]
+* .font[Manuseio desses objetos com as próprias mãos]
+???
+* Isto é obtido, através de técnicas de visão computacional e de computação gráfica/realidade virtual
+* Realidade Aumentada é uma técnica utilizada para unir o mundo real com o virtual, ou seja estamos inserindo objetos virtuais no ambiente real, mostrando ao usuário em tempo real.
+
+---
+## Outras aplicações
+
+.left-column50[![:img 99%, center](images/car_counting.gif)]
+.right-column50[![:img 98%, center](images/peaple_counting.gif)]
+.
+* .font[Contagem de veiculo]
+* .font[Contagem de pessoas]
+* .font[Monitoramento de trânsito]
+* .font[Sensoreamento remoto]
+???
+* Sensoreamento remoto
+    monitoramento de fenômenos naturais e também antrópicos, tais como o monitoramento do avanço do desmatamento e outros.
+ 
+* Reconhecimento facial é somente um das aplicações de visão computacional, nós temos vigilância também podemos analisar os videos de um assalto para extrair mais informações.
+
+* Temos também as aplicações médicas, agora análises de cancer podem ser analisadas sem intervenção humana, temos também analises de Raio-X, estrutura de células todos usando visão computacional.
+
+* Talvez uma aplicação de visão computacional que seja comum e possa estar no dia-a-dia de vocês é o Kinect, a microsoft consegue classificar e reconhecer poses humanas somente através das imagens. 
+---
+# Ferramentas utilizadas
+
+.left-column[
+### OpenCV 3.1.0
+]
+
+.right-column[
+![:img 30%, center](images/ocv.png)
+- **Open** **C**omputer **V**ision
+- Padrão na indústria e na academia 
+- Algoritmos otimizados e no estado da arte
+- Processamento de imagens e vídeo
+- Aprendizado de máquina
+- Licença BSD
+]
+
+???
+OpenCV é uma biblioteca de processamento de imagens com diversos algoritmos de visão computacional, desenvolvida em C/C++ também tem suporte para Java python3 e Visual basic
+---
+# Ferramentas utilizadas
+
+.left-column[
+### OpenCV 3.1.0
+### python3 3.6.7
+]
+.right-column[
+.left-column[![:img 80%,center](images/np.png)]
+.right-column[## Numpy]
+É utilizado como alternativa as estruturas de dados fornecidas nativamente pelo OpenCV em C++. O wrapper do OpenCV para python3 fez essa opção pois é uma biblioteca consolidada e permite manipulação rápida de dados mesmo em python3.
+
+]
+
+???
+O objetivo de se utilizar o Numpy é de expressasr images como arrays multidimensionais, o que ajuda computacionalmente a realizar cálculos numericos na imagem. É a alternativa python3 para as estruturas de dados fornecidas pelo OpenCV nativamente em C++.
+
+---
+# Justificativa
+* Poucos produtos desenvolvidos voltados para o teste **palográfico**
+* Correção do teste é feita manual
+* Não foi achado outra solução que utilize imagens de despositivo móvel na contagem dos palos
+---
+# Objetivo 
+
+## Aplicação de visão computacional na contagem dos palos
+
+.left-column50[
+Passos:
+
+* Contagem **dos palos**
+  * Adquirir a imagem 
+  * Localizar folha do teste
+  * Identificar os palos
+  * Contagem dos palos
+* Demonstração do protótipo
+]
+
+---
+
+# Aquisição da imagem
+
+* Uma imagem digital é uma matriz de linhas e colunas.
+* Restriçao da iluminação
+
+```python3
+import cv2
+img = cv2.imread("teste_palo.jpg")   # carrega imagem 
+```
+![:img 96%,center](images/demo/aquisicao2.jpg)
+
+---
+## Localizar folha do teste - bordas e contornos
+
+```python
+image_resized = cv2.GaussianBlur(image_resized, (19, 19), 5)
+blur_hsv = cv2.cvtColor(image_resized, cv2.COLOR_BGR2HSV) 
+hue, saturation, value = cv2.split(blur_hsv)       
+```
+```python3
+# binarizacao
+adaptative_thres = cv2.adaptiveThreshold(  
+   saturation, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 121, 12)
+```
+
+???
+* cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C[, dst]) 
+* .font[Parameters:	]
+  * src – Source 8-bit single-channel image.
+  * dst – Destination image of the same size and the same type as src .
+  * maxValue – Non-zero value assigned to the pixels for which the condition is satisfied. See the details below.
+  * adaptiveMethod – Adaptive thresholding algorithm to use, ADAPTIVE_THRESH_MEAN_C or ADAPTIVE_THRESH_GAUSSIAN_C . See the details below.
+  * thresholdType – Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV .
+  * blockSize – Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.
+  * C – Constant subtracted from the mean or weighted mean (see the details below). Normally, it is positive but may be zero or negative as well.
+
+---
+### Localizar folha do teste - bordas e contornos
+
+```python3
+# detecção de bordas
+sobelX = cv2.Sobel(adaptative_thres, cv2.CV_64F, 1, 0)
+sobelY = cv2.Sobel(adaptative_thres, cv2.CV_64F, 0, 1)
+sobelX = np.uint8(np.absolute(sobelX))
+sobelY = np.uint8(np.absolute(sobelY))
+thresholded_edge_sobel = cv2.bitwise_or(sobelX, sobelY)
+```
+```python
+# localiza os contornos
+cv2.findContours(thresholded_edge_sobel.copy(), cv2.RETR_EXTERNAL, 
+cv2.CHAIN_APPROX_SIMPLE)
+```
+.left-column50[![:img 70%, center](images/demo/thresholded_edge_sobel.png)]
+.right-column50[![:img 70%, left](images/demo/sheet-roi.png)]
+???
+Segundo e terceiro argumentos permitem obter hierarquia entre contornos e utilizar módos de aproximação.
+retorna apenas os contornos quadrilaterais através de uma aproximação poligonal
+
+processamento do Sobel é preciso trabalhar com a imagem com
+ponto flutuante de 64 bits (que suporta valores positivos e negativos) para depois converter
+para uint8 novamente.
+---
+### Localizar folha do teste - transformação de perspectiva
+
+.left-column50[![:img 65%, left ](images/demo/sheet-roi.png)]
+.right-column50[![:img 82%,center ](images/demo/warp.png) ]
+
+.no-column[
+
+```python
+   dst = np.array([
+            [0, 0],
+            [maxWidth - 1, 0],
+            [maxWidth - 1, maxHeight - 1],
+            [0, maxHeight - 1]], dtype = "float32")
+
+  M = cv2.getPerspectiveTransform(rect, dst)
+  warp = cv2.warpPerspective(orig, M, (maxWidth, maxHeight))
+  
+```
+]
+???
+  A transformação de perspectiva permite obter uma imagem plana da folha do teste que possibilatará a identidicacao dos palos.
+
+---
+## Identificar Palos - morfologia - binarização
+
+.left-column50[![:img 95%, left](images/demo/blackhat.png)]
+.right-column50[![:img 95%, right](images/demo/binarization.png)]
+```python3
+kernel = np.ones((14, 21), np.uint8)
+blackhat = cv2.morphologyEx(img_low, cv2.MORPH_BLACKHAT, kernel)
+```
+```python3
+blur = cv2.GaussianBlur(blackhat, (3, 3), 0)
+(ret,binarization) = cv2.threshold(blur, 0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+dilation = cv2.dilate(binarization, kernel, iterations=1)
+erosion = cv2.erode(dilation, kernel, iterations=1)
+```
+---
+## Identificar Palos - Contornos
+São conjuntos de pontos que se mantém conectados através da ligação entre pixels vizinhos que possuem mesma cor ou intensidade.
+
+.left-column50[![:img 95%,left](images/demo/contornos.png)]
+.right-column50[
+* A função retorna uma lista contendo conjunto de pontos (**Numpy** array).
+
+]
+.no-column[
+
+```python3
+h, cnts, hx = cv2.findContours(
+      image_bin.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+```
+]
+???
+* aqui é feito validaçoes referente a area minima e maxima do palo e posição do mesmo em relação
+ao eixo x
+---
+
+### Contagem dos Palos 
+
+.center[![:img 63%,center](images/demo/contagem.png)]
+.no-column[
+```python
+tempos = count_palos(boxes,image_clone_roi)
+resultado = {"tempos":tempos,"nor":nor,"total":total_palos}
+```
+]
+---
+```python
+    def pegaMenorDistancia(self,boxes,atual,clone):
+        distMenor = 1000000000000
+        proximo = None
+        paloTmp = None
+        tmpBoxes = list(boxes.copy())
+        if tmpBoxes.__contains__(atual):
+            tmpBoxes.remove(atual)
+        elif atual.menorDistancia > 800:
+            tmpBoxes.clear()
+        for i in range(0, len(tmpBoxes)):
+            palo = boxes[i]
+            if palo.x > atual.x and palo.y < (atual.y + atual.h):
+                p2 = [palo.x, palo.y]
+                p1 = [atual.x, atual.y]
+
+                distTmp = self.distancia(p1, p2)
+                # print(distTmp)
+                if distTmp <= distMenor:
+                    distMenor = distTmp
+                    paloTmp = palo
+                    proximo = palo
+                    proximo.setMenorDistancia(distMenor)
+                    proximo.setId(i)
+                     if tmpBoxes.__contains__(paloTmp):
+            tmpBoxes.remove(paloTmp)
+        return proximo, tmpBoxes
+```
+---
+## Demonstração
+
+.left-column50[
+<video controls width="350" height="300" controls="controls">
+ <source src="images/demo/demo-teste-1.mp4" type="video/mp4" />
+ <p>Fallback text.</p>
+ </video>
+]
+.right-column50[<video controls width="350" height="300" controls="controls">
+ <source src="images/demo/demo-teste-2.mp4" type="video/mp4" />
+ <p>Fallback text.</p>
+ </video>]
+
+---
+class: center, middle
+
+## Obrigado
+
+[https://github.com/JosemarRincon](https://github.com/JosemarRincon)
+
+### josemar.rincon@gmail.com
+
+
+    </textarea>
+    <script src="remark-latest.min.js"/></script>
+    <script>
+      /* Image scaling macro */
+      remark.macros.img = function (percentage, align) {
+        var url = this;
+        return '<p style="text-align: '+align+'"><img src="' + url + '" style="width: ' + percentage + '" /></p>';
+      };
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+        });
+    </script>
+  </body>
+</html>
